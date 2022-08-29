@@ -34,7 +34,7 @@ import path from 'path';
 
   //! END @TODO1
   app.get("/filteredimage", async (req:Request, res: Response) => {
-    let image_url = req.query.image_url.toString();
+    let image_url:string = req.query.image_url.toString();
     if ( !image_url ) {
         return res.status(400).send("valid Image url is needed");
       }
