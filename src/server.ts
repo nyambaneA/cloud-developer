@@ -2,6 +2,7 @@ import express from 'express';
 import {Request, Response } from 'express';
 import bodyParser from 'body-parser';
 import {filterImageFromURL, deleteLocalFiles} from './util/util';
+import path from 'path';
 
 
 (async () => {
@@ -33,19 +34,20 @@ import {filterImageFromURL, deleteLocalFiles} from './util/util';
 
   //! END @TODO1
   app.get("/filteredimage", async (req:Request, res: Response) => {
-    const { image_url } = req.query.image_url.toString();
+    let image_url = req.query.image_url.toString();
     if ( !image_url ) {
         return res.status(400).send("valid Image url is needed");
       }
-       
-    const filtered_image = await filterImageFromURL(image_url);
+    // const directoryPath:string = path.join(__dirname, '../tmp');   
+    const filtered_image:any = await filterImageFromURL(image_url);
 
         return res.status(200).sendFile(filtered_image, () => {
         deleteLocalFiles([filtered_image])
 
     });
 
-  });
+   });
+
   // Root Endpoint
   // Displays a simple message to the user
   app.get( "/", async ( req:Request, res: Response) => {
